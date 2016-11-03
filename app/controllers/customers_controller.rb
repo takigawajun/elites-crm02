@@ -20,6 +20,7 @@ class CustomersController < ApplicationController
     else
       render :new
     end
+  end
 #-------------------------------------------------------
 
   def edit
@@ -37,6 +38,9 @@ class CustomersController < ApplicationController
 
   def show
     @customer = Customer.find(params[:id])
+    @comment = Comment.new
+    # @comments = Comment.where(customer_id: params[:id].to_i)
+    @comments = @customer.comments
   end
 
   def destroy
@@ -44,17 +48,15 @@ class CustomersController < ApplicationController
     @customer.destroy
     redirect_to root_path
   end
+  
   private
 
   def customer_params
     params.require(:customer).permit(
       :family_name,
       :given_name,
-      :email,
-      :company_id,
-      :post_id
+      :email
       )
   end
+#-------------------------------------------------------
 end
-end
-
