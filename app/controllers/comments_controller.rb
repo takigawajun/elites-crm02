@@ -36,4 +36,10 @@ class CommentsController < ApplicationController
     # さっき保存したcustomer_idをここで使う
     redirect_to customer_path(customer_id)
   end
+  
+  private
+
+  def comment_params
+    params.require(:comment).permit(:body, :customer_id)
+  end
 end
