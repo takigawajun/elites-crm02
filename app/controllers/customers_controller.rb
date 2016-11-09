@@ -1,6 +1,6 @@
 class CustomersController < ApplicationController
   
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+ before_action :authenticate_user!, only: [:show, :edit, :destroy, :update]
   
   def index
     @q = Customer.search(params[:q])
@@ -12,13 +12,13 @@ class CustomersController < ApplicationController
   end
 
 #------------------------下記を追加--------------------^
- def create
+  def create
     @customer = Customer.new(customer_params)
 #-----------------------下記の内容に修正-------------------------
     if  @customer.save
       redirect_to @customer
     else
-      render :new
+      render :edit
     end
   end
 #-------------------------------------------------------
@@ -41,6 +41,7 @@ class CustomersController < ApplicationController
     @comment = Comment.new
     # @comments = Comment.where(customer_id: params[:id].to_i)
     @comments = Comment.where(customer_id: params[:id].to_i)
+    
   end
 
   def destroy

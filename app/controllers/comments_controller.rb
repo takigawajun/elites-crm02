@@ -4,21 +4,29 @@ class CommentsController < ApplicationController
   end
 
   def show
+    @comment = Comment.find(params[:id])
+   
   end
 
   def new
 
   end
 
-  def create
-    @comment = Comment.new(comment_params)
-    if @comment.save
-      redirect_to customer_path(@comment.customer_id)
-    else
-      redirect_to customer_path(@comment.customer_id)
+ def create
+     
+     #@comment = Comment.new(comment_params)
+     @comment = Comment.new(comment_params)
+     if @comment.valid?
+       @comment.save
+        redirect_to customer_path(@comment.customer_id)
+      else
+      
+       @customer = Customer.find(@comment.customer_id)
+       @comments = @customer.comments
+       render template: "customers/show"
+      end
     end
-  end
-
+  
 
   def edit
 
@@ -36,10 +44,13 @@ class CommentsController < ApplicationController
     # さっき保存したcustomer_idをここで使う
     redirect_to customer_path(customer_id)
   end
+end
+
   
   private
 
   def comment_params
-    params.require(:comment).permit(:body, :customer_id)
+   params.require(:comment).permit(:body, :customer_id, :user_id)
   end
-end
+
+

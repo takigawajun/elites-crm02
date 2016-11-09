@@ -16,7 +16,7 @@ class Customer < ActiveRecord::Base
     validates :post_id, presence: true
     
     def full_name
-    # return family_name + given_nameの略
     family_name + given_name
-  end
 end
+
+  end
