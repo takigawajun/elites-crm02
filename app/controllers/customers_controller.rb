@@ -1,6 +1,8 @@
 class CustomersController < ApplicationController
   
- before_action :authenticate_user!, only: [:show, :edit, :destroy, :update]
+before_action :authenticate_user!
+
+before_action :set_customer_id,      only: [:show, :edit, :destroy, :update]
   
   def index
     @q = Customer.search(params[:q])
@@ -37,7 +39,7 @@ class CustomersController < ApplicationController
   end
 
   def show
-    @customer = Customer.find(params[:id])
+    
     @comment = Comment.new
     # @comments = Comment.where(customer_id: params[:id].to_i)
     @comments = Comment.where(customer_id: params[:id].to_i)
@@ -51,6 +53,11 @@ class CustomersController < ApplicationController
   end
   
   private
+   def set_customer_id
+     @customer = Customer.find(params[:id])
+   end
+
+
 
   def customer_params
     params.require(:customer).permit(
