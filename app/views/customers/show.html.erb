@@ -17,13 +17,16 @@
       <div class="user-img">
       <%= image_tag(current_user.image_url, width: "100", height: "100")  %>
       </div>
-
+ 
     <hr />
     
      <h2>対応履歴</h2>
     <% @comments.each do |comment| %>
       <div class="media">
         <div class="media-body">
+          <div class="user-img">
+           <%= image_tag(current_user.image_url, width: "80", height: "80", style: "float: left;" ) %>
+          </div>
           <%= simple_format(comment.body) %>
           <p class="text-muted">
             投稿記事:<%= comment.created_at.strftime('%Y%m%d %H:%M') %>
